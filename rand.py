@@ -24,7 +24,11 @@ async def main():
     return res
 
 if __name__ == "__main__":
+    import time
+    s = time.perf_counter()
     random.seed(444)
     r1, r2, r3 = asyncio.run(main())
     print()
     print(f"r1: {r1}, r2: {r2}, r3: {r3}")
+    elapsed = time.perf_counter() - s
+    print(f"{__file__} executed in {elapsed:0.2f} seconds.")
