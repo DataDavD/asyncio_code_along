@@ -9,11 +9,13 @@ sm(*lst)
 
 def generator2():
     for i in range(10):
+        print(i)
         yield i
 
 
 def generator3():
     for j in range(10, 20):
+        print(j)
         yield j
 
 
@@ -25,3 +27,11 @@ d = generator()
 
 next(d)
 next(d)
+next(d)
+next(d)
+
+d = map(int, [1, 2, 3])
+type(d)
+print(next(d))
+print(next(d))
+print(next(d))
