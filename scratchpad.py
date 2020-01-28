@@ -35,3 +35,25 @@ type(d)
 print(next(d))
 print(next(d))
 print(next(d))
+
+
+from itertools import cycle
+
+
+def endless():
+    yield from cycle((9, 8, 7, 6))
+
+
+e = endless()
+total = 0
+for i in e:
+    if total < 30:
+        print(i, ' ')
+        total += i
+    else:
+        print()
+        break
+
+print(next(e))
+print(next(e))
+print(next(e))
