@@ -9,3 +9,4 @@
 !settings/*.example
 .ipynb_checkpoints
 untitled*
+*.mypy_cache
