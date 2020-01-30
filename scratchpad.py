@@ -85,11 +85,96 @@ g, f = asyncio.run(main())
 g
 f
 
+
 async def main_test():
     print('Hello')
     await asyncio.sleep(5)
     print('David')
 
+
 test = main_test()
 
 type(test)
+
+
+# not concurrently run in event loop
+async def example(message):
+    print("start of example():", message)
+    await asyncio.sleep(1)
+    print("end of example():", message)
+
+
+async def main():
+    # Start coroutine twice (hopefully they start!)
+    first_awaitable = example("First call")
+    second_awaitable = example("Second call")
+    # Wait for coroutines to finish
+    await first_awaitable
+    await second_awaitable
+
+
+asyncio.run(main())
+
+import time
+
+
+# concurrently run in event loop
+async def example(message, delay):
+    print("start of example():", message)
+    await asyncio.sleep(delay)
+    # return('done calling ', message)
+    print("end of example():", message)
+
+
+async def main():
+    # Start coroutine twice (hopefully they start!)
+    print(f"started at {time.strftime('%X')}")
+    first_awaitable = await example("First call", 5)
+    second_awaitable = await example("Second call", 1)
+    # Wait for coroutines to finish
+    print(first_awaitable)
+    print(second_awaitable)
+    print(f"finished at {time.strftime('%X')}")
+
+
+asyncio.run(main())
+
+
+async def print_after(message, delay):
+    """Print a message after the specified delay (in seconds)"""
+    print("start of example():", message)
+    await asyncio.sleep(delay)
+    print("end of example():", message)
+
+
+async def main():
+    # Start coroutine twice (hopefully they start!)
+    print(f"started at {time.strftime('%X')}")
+    first_awaitable = asyncio.create_task(print_after("world!", 5))
+    second_awaitable = asyncio.create_task(print_after("Hello", 1))
+    # Wait for coroutines to finish
+    await first_awaitable
+    await second_awaitable
+    print(f"finished at {time.strftime('%X')}")
+
+
+asyncio.run(main())
+
+
+async def print_after(message, delay):
+    """Print a message after the specified delay (in seconds)"""
+    print("start of example():", message)
+    await asyncio.sleep(delay)
+    print("end of example():", message)
+
+
+async def main():
+    # Start coroutine twice (hopefully they start!)
+    print(f"started at {time.strftime('%X')}")
+    await asyncio.gather(print_after("world!", 5),
+                         print_after("Hello", 1)
+                         )
+    print(f"finished at {time.strftime('%X')}")
+
+
+asyncio.run(main())
